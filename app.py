@@ -6,11 +6,11 @@ app = Flask(__name__)
 def all_trancations():
     return 'Hello World'
 
-@app.route('transactions/<id>')
-def transactions_by_id():
+@app.route('/transactions/<id>')
+def transactions_by_id(id):
     return None
 
-@app.route('transactions/search')
+@app.route('/transactions/search')
 def transactions_search():
     return None
 
