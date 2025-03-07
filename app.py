@@ -9,7 +9,11 @@ def all_trancations():
 
 @app.route('/transactions/<id>')
 def transactions_by_id(id):
-    return None
+    try:
+        int(id)
+    except ValueError as ve:
+        return jsonify(sr.response_status(500,'ERROR','Entered ID is not a valid base 10 number'))
+    return jsonify(sr.response_status())
 
 @app.route('/transactions/search')
 def transactions_search():
