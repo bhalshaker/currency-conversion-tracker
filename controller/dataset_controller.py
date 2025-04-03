@@ -4,7 +4,9 @@ class DatasetController():
     def get_default_dataset():
         dtype={'id': 'int64','description': 'string','amount': 'string','amount': 'float64','currency':'string','date':'string'}
         parse_dates = ['date']
-        return pd.read_csv('data/transactions.csv',dtype=dtype,parse_dates=parse_dates)
+        df=pd.read_csv('data/transactions.csv',dtype=dtype,parse_dates=parse_dates)
+        df['currency'].apply(lambda x: x.lower())
+        return df
     
     def search_by_id(df,id):
         return df.query('id == @id')
@@ -34,6 +36,10 @@ class DatasetController():
         return df.query('@max > age > @min')
 
     def search_by_currency(df,currency):
-        currency_upper=currency.upper()
-        return df.query('currency==@currency_upper')
+        currency_lower=currency.lower()
+        return df.query('currency==@currency_lower')
+    
+    def prepare_df_for_integration(df):
+        df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
+        return df
         
