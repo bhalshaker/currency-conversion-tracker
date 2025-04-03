@@ -4,7 +4,7 @@
 |-----|----| --------|-----|
 |/transactions|GET|Apply currency conversion on all transactions|None|
 |/transactions/<id>|GET|Apply currency conversion on selected transaction by id|id (integer)|
-|/transactions/search|GET|Apply currency conversion on selected transaction based on applied search criteria | before (YYYY-MM-DD),after (YYYY-MM-DD) |
+|/transactions/search|GET|Apply currency conversion on selected transaction based on applied search criteria|before (YYYY-MM-DD), after (YYYY-MM-DD), below(Decimal), exceed(Decimal)|
 
 ## Brief description
 
