@@ -1,10 +1,10 @@
 import pandas as pd
 from pandantic import Pandantic
-from model.model import TransactionCSVModel
+from model.model import TransactionModel
 
 class DatasetController():
     def get_default_dataset():
-        validator = Pandantic(schema=TransactionCSVModel)
+        validator = Pandantic(schema=TransactionModel)
         dtype={'id': 'int64','description': 'string','amount': 'float64','currency':'string','date':'string'}
         df=pd.read_csv('data/transactions.csv',dtype=dtype)
         validator.validate(dataframe=df, errors="raise")

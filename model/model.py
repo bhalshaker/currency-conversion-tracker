@@ -4,7 +4,7 @@ from pydantic import BaseModel,field_validator,PositiveInt,Field
 from typing import Optional,List,Literal
 from controller import convert_currency_controller as ccc
 
-class TransactionCSVModel(BaseModel):
+class TransactionModel(BaseModel):
     id: int
     description: str
     amount: float
@@ -34,8 +34,8 @@ class TransactionCSVModel(BaseModel):
     date: date
 
 class SearchQueryModel(BaseModel):
-    before:Optional[str]=None
-    after:Optional[str]=None
+    before:Optional[date]=None
+    after:Optional[date]=None
     below:Optional[float]=None
     exceed:Optional[float]=None
     matching:Optional[str]=None
@@ -43,7 +43,7 @@ class SearchQueryModel(BaseModel):
 
     @field_validator('currency')
     def validate_currency(cls,value):
-        if ccc.does_currency_exists(value):
+        if ccc.not_valid_currency(value):
             raise ValueError(f"{value} is not a valid currency")
         return value
     
@@ -58,7 +58,7 @@ class SearchQueryModel(BaseModel):
 class TransactionPath(BaseModel):
     transaction_id: int = Field(alias='id', description='transaction id')
 
-class ConvertedTransaction(TransactionCSVModel):
+class ConvertedTransaction(TransactionModel):
     converted_amount:float
 
 class ConvertedTransactionResponse(BaseModel):
@@ -68,7 +68,7 @@ class ConvertedTransactionResponse(BaseModel):
     data: List[ConvertedTransaction]
 
 class TransactionsBodyModel(BaseModel):
-    data:List[TransactionCSVModel]
+    data:List[TransactionModel]
 
 
     
