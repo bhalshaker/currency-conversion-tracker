@@ -16,16 +16,16 @@ class DatasetController():
         return df.query('id == @id')
     
     def search_before(df,date):
-        pass
+        return df.query('date < @date')
 
     def search_after(df,date):
-        pass
+        return df.query('date > @date')
 
     def search_on(df,date):
-        pass
+        return df.query('date == @date')
 
     def search_date_interval(df,before,after):
-        pass
+        return df.query('@before < date < @after')
 
     def search_by_term(df,search_term):
         return df.query('name.str.contains(@search_term,case=False)')
