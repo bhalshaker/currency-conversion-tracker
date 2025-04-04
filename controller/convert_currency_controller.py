@@ -37,9 +37,14 @@ def does_currency_exists(currency,currency_list):
 def convert_currency(to_currency,from_currency,transaction_date,amount):
     """Convert from a currency to another based on date"""
     converted_amount=amount
-    if to_currency.lower()!='bhd':
+    if from_currency.lower()!=to_currency:
         request_url=f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{transaction_date.strftime('%Y-%m-%d')}/v1/currencies/{to_currency.lower()}.json"
         convert_request=requests.get(request_url)
         convert_request.raise_for_status()
         converted_amount*=convert_request.json()[from_currency.lower()]
     return converted_amount
+
+def dataframe_convert_currency(df):
+    """Return converted dataframe"""
+    df['converted_amount']=convert_currency('bhd',df['currency'],df['date'],df['amount'])
+    return df
