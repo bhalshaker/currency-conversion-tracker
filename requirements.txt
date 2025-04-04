@@ -1,3 +1,5 @@
 flask==3.1.0
 pandas==2.2.3
 Flask-Pydantic==0.13.0
+requests==2.32.3
+flask-openapi3[swagger]==4.1.0
