@@ -41,10 +41,11 @@ def convert_currency(to_currency,from_currency,transaction_date,amount):
         request_url=f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{transaction_date.strftime('%Y-%m-%d')}/v1/currencies/{to_currency.lower()}.json"
         convert_request=requests.get(request_url)
         convert_request.raise_for_status()
-        converted_amount*=convert_request.json()[from_currency.lower()]
-    return converted_amount
+        exchange_rate=convert_request.json()[to_currency][from_currency.lower()]
+        converted_amount/=exchange_rate
+    return round(converted_amount,3)
 
 def dataframe_convert_currency(df):
     """Return converted dataframe"""
-    df['converted_amount']=convert_currency('bhd',df['currency'],df['date'],df['amount'])
+    df['converted_amount'] = df.apply(lambda row: convert_currency('bhd', row['currency'],row['date'],row['amount']), axis=1)
     return df

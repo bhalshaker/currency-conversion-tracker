@@ -3,6 +3,7 @@ from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
 from controller.service_response import ServiceResponse as sr
 from controller.dataset_controller import DatasetController as dc
+from controller.convert_currency_controller import dataframe_convert_currency as dcc
 from model.model import TransactionPath,ConvertedTransactionResponse
 
 info = Info(title='Currency Conversion Tracker API', version='1.0.0')
@@ -18,8 +19,14 @@ transactions_tag = Tag(name='Transactions', description='Endpoints related to tr
 def all_trancations():
     """Apply currency conversion on full dataset of transaction"""
     df = dc.get_default_dataset()
-    app.logger.info(f"data frame types {df.dtypes}")
-    return jsonify(sr.response_process_data(df.to_dict(orient='records')))
+    app.logger.info("retrived dataset from csv file")
+    try:
+        converted_df=dcc(df)
+        app.logger.info("Successfully called conversion API to convert all transactions")
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify(sr.response_status(500,'ERROR','ERROR Occured while trying to convert the transaction through the API'))
+    return jsonify(sr.response_process_data(converted_df.to_dict(orient='records')))
 
 @app.get('/transactions/<int:id>', tags=[transactions_tag])
 def transactions_by_id(path: TransactionPath):
@@ -31,39 +38,19 @@ def transactions_by_id(path: TransactionPath):
     df = dc.get_default_dataset()
     filtered_df = dc.search_by_id(df, path.transaction_id)
     filtered_df = dc.prepare_df_for_integration(filtered_df)
-    return jsonify(sr.response_process_data(filtered_df.to_dict(orient='records')))
+    try:
+        converted_df=dcc(filtered_df)
+        app.logger.info("Successfully called conversion API to convert all transactions")
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify(sr.response_status(500,'ERROR','ERROR Occured while trying to convert the transaction through the API'))
+    return jsonify(sr.response_process_data(converted_df.to_dict(orient='records')))
 
 @app.get('/transactions/search', tags=[transactions_tag])
 def transactions_search(id: int = None):
     """Apply currency conversion on selected transaction based on applied search criteria"""
     print(id)
     return jsonify(sr.response())
-# @app.route('/transactions')
-# def all_trancations():
-#     """Apply currency conversion on full dataset of transaction"""
-#     df = dc.get_default_dataset()
-#     app.logger.info(f"data frame types {df.dtypes}")
-#     return jsonify(sr.response_process_data(df.to_dict(orient='records')))
-
-
-# @app.route('/transactions/<id>')
-# def transactions_by_id(id):
-#     """Apply currency conversion on selected transaction by id"""
-#     try:
-#         int(id)
-#     except ValueError as ve:
-#         return jsonify(sr.response(500,'ERROR','Entered ID is not a valid base 10 number'))
-#     df=dc.get_default_dataset()
-#     filtered_df=dc.search_by_id(df,id)
-#     filtered_df=dc.prepare_df_for_integration(filtered_df)
-#     return jsonify(sr.response_process_data(filtered_df.to_dict(orient='records')))
-
-# @app.route('/transactions/search')
-# def transactions_search():
-#     """Apply currency conversion on selected transaction based on applied search criteria"""
-#     id=request.args.get('id')
-#     print(id)
-#     return jsonify(sr.response())
 
 @app.errorhandler(404)  
 def not_found(e):
