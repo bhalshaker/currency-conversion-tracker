@@ -67,6 +67,9 @@ class ConvertedTransactionResponse(BaseModel):
     message: str
     data: List[ConvertedTransaction]
 
+class TransactionsBodyModel(BaseModel):
+    data:List[TransactionCSVModel]
+
 
     
     

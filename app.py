@@ -1,18 +1,20 @@
 from flask import Flask,request,jsonify
+from flask_pydantic import validate
 from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
 from controller.service_response import ServiceResponse as sr
 from controller.dataset_controller import DatasetController as dc
 from controller.convert_currency_controller import dataframe_convert_currency as dcc
-from model.model import TransactionPath,ConvertedTransactionResponse
+from model.model import TransactionPath,ConvertedTransactionResponse,SearchQueryModel,TransactionsBodyModel
 
 info = Info(title='Currency Conversion Tracker API', version='1.0.0')
 app = OpenAPI(__name__, info=info)
 app.json.sort_keys = False
-transactions_tag = Tag(name='Transactions', description='Endpoints related to transactions')
+csv_transactions_tag =Tag(name='CSV Transactions',description='Endpoints related to read transactions from CSV')
+request_body_transactions_tag =Tag(name='Request Body Transactions',description='Endpoints related to read transactions from JSON Request Body')
 
 @app.get('/transactions',
-         tags=[transactions_tag],
+         tags=[csv_transactions_tag],
          summary='return all converted transactions in csv',
          description='return all converted transactions in the csv file after integration with currency conversion API',
          responses={200: ConvertedTransactionResponse})
@@ -32,7 +34,11 @@ def all_trancations():
         return jsonify(sr.response_status(500,'ERROR','ERROR Occured while trying to convert the transaction through the API'))
     return jsonify(sr.response_process_data(converted_df.to_dict(orient='records')))
 
-@app.get('/transactions/<int:id>', tags=[transactions_tag])
+@app.get('/transactions/<int:id>',
+         tags=[csv_transactions_tag],
+         summary='Apply currency conversion on selected transaction by id',
+         description='Apply currency conversion on selected transaction by id after integration with currency conversion API',
+         responses={200: ConvertedTransactionResponse})
 def transactions_by_id(path: TransactionPath):
     """Apply currency conversion on selected transaction by id"""
     try:
@@ -50,11 +56,24 @@ def transactions_by_id(path: TransactionPath):
         return jsonify(sr.response_status(500,'ERROR','ERROR Occured while trying to convert the transaction through the API'))
     return jsonify(sr.response_process_data(converted_df.to_dict(orient='records')))
 
-@app.get('/transactions/search', tags=[transactions_tag])
-def transactions_search(id: int = None):
+@app.get('/transactions/search',
+         tags=[csv_transactions_tag],
+         summary='Apply currency conversion on selected transaction based on applied search criteria',
+         description='pply currency conversion on selected transaction based on applied search criteria by integration with currency conversion API',
+         responses={200: ConvertedTransactionResponse})
+@validate()
+def transactions_search(query:SearchQueryModel):
     """Apply currency conversion on selected transaction based on applied search criteria"""
     print(id)
     return jsonify(sr.response())
+
+@app.post('/transactions',
+          tags=[request_body_transactions_tag],
+          summary='',
+          description='',
+          responses={200: ConvertedTransactionResponse})
+def process_external_transactions(body: TransactionsBodyModel):
+    pass
 
 @app.errorhandler(404)  
 def not_found(e):
