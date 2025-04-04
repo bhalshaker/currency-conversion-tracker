@@ -18,7 +18,11 @@ transactions_tag = Tag(name='Transactions', description='Endpoints related to tr
          responses={200: ConvertedTransactionResponse})
 def all_trancations():
     """Apply currency conversion on full dataset of transaction"""
-    df = dc.get_default_dataset()
+    try:
+        df = dc.get_default_dataset()
+    except Exception as e:
+        app.logger.error(e)
+        return jsonify(sr.response_status(500,'ERROR','Structure of CSV data is not as per standard please refer to the documentation to fix the issue'))
     app.logger.info("retrived dataset from csv file")
     try:
         converted_df=dcc(df)

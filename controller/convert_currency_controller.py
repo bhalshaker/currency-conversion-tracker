@@ -7,7 +7,7 @@ def get_api_currencies():
     currencies_request.raise_for_status()
     return currencies_request.json()
 def not_valid_currency(currency):
-        return currency not in [
+        return currency.lower() not in [
           "1inch", "aave", "ada", "aed", "afn", "agix", "akt", "algo", "all", "amd", "amp", "ang", "aoa", "ape", "apt", "ar", 
           "arb", "ars", "atom", "ats", "aud", "avax", "awg", "axs", "azm", "azn", "bake", "bam", "bat", "bbd", "bch", "bdt",
           "bef", "bgn", "bhd", "bif", "bmd", "bnb", "bnd", "bob", "brl", "bsd", "bsv", "bsw", "btc", "btcb", "btg", "btn", 
@@ -30,9 +30,6 @@ def not_valid_currency(currency):
           "vet", "vnd", "vuv", "waves", "wemix", "woo", "wst", "xaf", "xag", "xau", "xaut", "xbt", "xcd", "xcg", "xch", "xdc", 
           "xdr", "xec", "xem", "xlm", "xmr", "xof", "xpd", "xpf", "xpt", "xrp", "xtz", "yer", "zar", "zec", "zil", "zmk", "zmw", 
           "zwd", "zwg", "zwl"]
-def does_currency_exists(currency,currency_list):
-    """Check if currency in currency_list"""
-    return currency in currency_list
 
 def convert_currency(to_currency,from_currency,transaction_date,amount):
     """Convert from a currency to another based on date"""
@@ -40,6 +37,9 @@ def convert_currency(to_currency,from_currency,transaction_date,amount):
     if from_currency.lower()!=to_currency:
         request_url=f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@{transaction_date.strftime('%Y-%m-%d')}/v1/currencies/{to_currency.lower()}.json"
         convert_request=requests.get(request_url)
+        if convert_request.status_code==404:
+            request_url=f"https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies/{to_currency.lower()}.json"
+            convert_request=requests.get(request_url)
         convert_request.raise_for_status()
         exchange_rate=convert_request.json()[to_currency][from_currency.lower()]
         converted_amount/=exchange_rate

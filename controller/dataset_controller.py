@@ -1,14 +1,15 @@
 import pandas as pd
 from pandantic import Pandantic
+from model.model import TransactionCSVModel
 
 class DatasetController():
     def get_default_dataset():
-        validator = Pandantic(schema=DataFrameSchema)
+        validator = Pandantic(schema=TransactionCSVModel)
         dtype={'id': 'int64','description': 'string','amount': 'float64','currency':'string','date':'string'}
-        parse_dates = ['date']
-        df=pd.read_csv('data/transactions.csv',dtype=dtype,parse_dates=parse_dates)
-        validator.validate(dataframe=df_invalid, errors="raise")
+        df=pd.read_csv('data/transactions.csv',dtype=dtype)
+        validator.validate(dataframe=df, errors="raise")
         df['currency'].apply(lambda x: x.lower())
+        df['date'] = pd.to_datetime(df['date'])
         return df
     
     def search_by_id(df,id):
