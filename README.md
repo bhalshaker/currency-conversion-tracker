@@ -53,7 +53,7 @@ To get started with the Currency Conversion Tracker project, follow these steps:
     Open your web browser and navigate to [http://localhost:5000](http://localhost:5000) to access the API endpoints.
 
 7. **Test the API**:  
-    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on [http://localhost:5000/openapi/swagger](http://localhost:5000/openapi/swagger0) or through hosted documentation.
+    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on [http://localhost:5000/openapi/swagger](http://localhost:5000/openapi/swagger) or through hosted documentation.
 
 By following these steps, you will have the Currency Conversion Tracker up and running on your local machine.
 
