@@ -158,7 +158,7 @@ class SearchQueryModel(BaseModel):
         """
         Validates that at least one field in the provided data is not null.
         Args:
-            data (Any): The input data to validate. Expected to be a dictionary.
+            data (Any): The input variable which hallds all queries.
         Returns:
             Any: The input data if validation passes.
         Raises:
@@ -172,10 +172,10 @@ class SearchQueryModel(BaseModel):
 
 class TransactionPath(BaseModel):
     """
-    TransactionPath is a model representing the path of a transaction.
+    TransactionPath is a model representing the path of a transaction which represents the id
+    of the transaction.
     Attributes:
-        transaction_id (int): The unique identifier for the transaction. 
-            This field is aliased as 'id' and includes a description for clarity.
+        transaction_id (int): The identifier for the transaction. 
     """
 
     transaction_id: int = Field(alias='id', description='transaction id')
@@ -192,11 +192,11 @@ class ConvertedTransaction(TransactionModel):
 
 class ConvertedTransactionResponse(BaseModel):
     """
-    ConvertedTransactionResponse is a Pydantic model that represents the response structure
+    ConvertedTransactionResponse is a model which represents the response structure
     for a converted transaction. It includes the following attributes:
     Attributes:
         code (int): The status code of the response.
-        status (str): The status of the response, typically indicating success or failure.
+        status (str): The status of the response, typically indicating success or error or ther statuses.
         message (str): A descriptive message providing additional information about the response.
         data (List[ConvertedTransaction]): A list of converted transaction objects containing
             detailed information about the transactions.
@@ -209,8 +209,7 @@ class ConvertedTransactionResponse(BaseModel):
 
 class TransactionsBodyModel(BaseModel):
     """
-    TransactionsBodyModel represents the structure of a request or response body
-    that contains a list of transactions.
+    TransactionsBodyModel represents the structure of a request body that contains a list of transactions.
     Attributes:
         transactions (List[TransactionModel]): A list of transaction objects, 
         where each transaction is represented by an instance of TransactionModel.
