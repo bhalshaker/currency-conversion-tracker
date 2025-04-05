@@ -40,7 +40,7 @@ To get started with the Currency Conversion Tracker project, follow these steps:
     * id is a postive integer.
     * description is any text.
     * amount any float/decimal amount
-    * currency should be lower case and should be one of the currencies mentioned in this API: `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json`
+    * currency should be lower case and should be one of the currencies mentioned in this API: [Currencies List](https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json)
     * date should be in YYYY-MM-DD and later than 2024-03-31 as the used API does not provide historical exchange rates older than this date.
 
 5. **Run the Application**:  
@@ -50,10 +50,10 @@ To get started with the Currency Conversion Tracker project, follow these steps:
     ```
 
 6. **Access the Application**:  
-    Open your web browser and navigate to `http://127.0.0.1:5000` to access the API endpoints.
+    Open your web browser and navigate to [http://localhost:5000](http://localhost:5000) to access the API endpoints.
 
 7. **Test the API**:  
-    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on `http://localhost:5000/openapi/swagger` or through hosted documentation.
+    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on [http://localhost:5000/openapi/swagger](http://localhost:5000/openapi/swagger0) or through hosted documentation.
 
 By following these steps, you will have the Currency Conversion Tracker up and running on your local machine.
 
