@@ -1,5 +1,8 @@
 # Currency Conversion Tracker
 
+## Brief description
+This project is a Flask-based web application designed to handle currency conversion for financial transactions. It provides APIs mentioned in the table below to fetch, search, and convert transaction data, leveraging external exchange rate APIs and robust data validation tools.
+
 |Route|HTTP METHOD|Description|Parameters|
 |-----|----| --------|-----|
 |/transactions|GET|Apply currency conversion on all transactions|None|
@@ -7,33 +10,7 @@
 |/transactions/search|GET|Apply currency conversion on selected transaction based on applied search criteria|before (YYYY-MM-DD), after (YYYY-MM-DD), below(Decimal), exceed(Decimal), match(String), currency(String)|
 |/transactions|POST|Submit transaction lists to be converted|Transactions Array[id (integer), amount (Decimal), currency (String), description (String)]|
 
-## Brief description
-This project is a Flask-based web application designed to handle currency conversion for financial transactions. It provides APIs to fetch, search, and convert transaction data, leveraging external exchange rate APIs and robust data validation tools.
-## Start Flask Application
-To start the Flask application, follow these steps:
-
-1. Ensure you have Python 3.11 installed on your system.
-2. Install the required dependencies by running:
-    ```sh
-    pip install -r requirements.txt
-    ```
-3. Set the `FLASK_APP` environment variable:
-    ```sh
-    export FLASK_APP=app.py
-    ```
-4. Optionally, set the `FLASK_ENV` environment variable to `development` for debugging:
-    ```sh
-    export FLASK_ENV=development
-    ```
-5. Run the Flask application:
-    ```sh
-    flask run
-    ```
-    ## Data Folder
-
-    Ensure that the `data` folder contains a `transaction.csv` file. This file is used to store transaction data in CSV format for processing and conversion. You can populate it with sample data or real transaction records as needed.
 ## Getting Started
-### Getting Started
 
 To get started with the Currency Conversion Tracker project, follow these steps:
 
@@ -44,7 +21,7 @@ To get started with the Currency Conversion Tracker project, follow these steps:
     cd currency-conversion-tracker
     ```
 
-2. **Set Up the Environment**:  
+2. **Set Up the Environment** (Prefered):  
     Create a virtual environment and activate it:
     ```sh
     python -m venv venv
@@ -59,6 +36,12 @@ To get started with the Currency Conversion Tracker project, follow these steps:
 
 4. **Prepare the Data**:  
     Ensure the `data/transaction.csv` file exists and contains valid transaction data. You can use the provided sample data or create your own.
+    * CSV file should contain the following fields: id,description,amount,currency,date
+    * id is a postive integer.
+    * description is any text.
+    * amount any float/decimal amount
+    * currency should be lower case and should be one of the currencies mentioned in this API: `https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json`
+    * date should be in YYYY-MM-DD and later than 2024-03-31 as the used API does not provide historical exchange rates older than this date.
 
 5. **Run the Application**:  
     Start the Flask application:
@@ -70,7 +53,7 @@ To get started with the Currency Conversion Tracker project, follow these steps:
     Open your web browser and navigate to `http://127.0.0.1:5000` to access the API endpoints.
 
 7. **Test the API**:  
-    Use tools like Postman or cURL to test the API routes described in the documentation.
+    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on `http://localhost:5000/openapi/swagger` or through hosted documentation.
 
 By following these steps, you will have the Currency Conversion Tracker up and running on your local machine.
 
@@ -88,5 +71,3 @@ The project leverages the following technologies and libraries:
 - **Currency API**: A free and open-source currency conversion API for fetching exchange rates by https://github.com/fawazahmed0/exchange-api repository .
 - **pandantic**: It enables validation and filtering of pandas dataframes.
 
-## Generate CSV file
-* Currencies list https://cdn.jsdelivr.net/npm/@fawazahmed0/currency-api@latest/v1/currencies.json
