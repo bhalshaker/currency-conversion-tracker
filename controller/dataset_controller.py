@@ -73,20 +73,33 @@ class DatasetController():
         return df.query('id == @id')
     
     def search_before(df,date):
-        date = pd.to_datetime(date)
+        """
+        Filters a DataFrame to return rows where the 'date' column is earlier than the specified date.
+        Args:
+            df (pandas.DataFrame): The DataFrame to filter. Must contain a 'date' column.
+            date (datetime-like): The date to compare against. Rows with 'date' values earlier than this will be returned.
+        Returns:
+            pandas.DataFrame: A filtered DataFrame containing rows where the 'date' column is earlier than the specified date.
+        """
+
         print(type(date))
-        return df[df['date'] < '2025-03-01']
+        return df.query('`date` < @date')
 
     def search_after(df,date):
-        date = pd.to_datetime(date)
-        print(date)
-        return df.query('date > @date')
+        """
+        Filters a DataFrame to include only rows where the 'date' column is greater than the specified date.
+        Args:
+            df (pandas.DataFrame): The DataFrame to filter. It must contain a column named 'date'.
+             date (datetime or str): The date to compare against. Rows with a 'date' value greater than this will be included.
+        Returns:
+            pandas.DataFrame: A filtered DataFrame containing rows where the 'date' column is greater than the specified date.
+        """
+        
+        print(type(date))
+        return df.query('`date` > @date')
 
-    def search_on(df,date):
-        return df.query('date == @date')
-
-    def search_date_interval(df,before,after):
-        return df.query('@before < date < @after')
+    def search_date_interval(df,after,before):
+        return df.query('@after < `date` < @before')
 
     def search_by_term(df,search_term):
         return df.query('name.str.contains(@search_term,case=False)')

@@ -43,7 +43,7 @@ def convert_transactions(df):
             return jsonify(sr.response_process_data(converted_df.to_dict(orient='records')))
         except Exception as e:
             app.logger.error(e)
-            return jsonify(sr.response(500,'ERROR','ERROR Occured while trying to convert the transaction through the API'))
+            return jsonify(sr.response(500,'ERROR',str(e)))
             
     else:
         return jsonify(sr.response(404,'Not Found','No records to convert'))
@@ -148,7 +148,7 @@ def transactions_search(query:SearchQueryModel):
     filtered_df=df
     print(query)
     if query.after is not None and query.before is not None:
-        filtered_df=dc.search_date_interval(filtered_df,query.before,query.after)
+        filtered_df=dc.search_date_interval(filtered_df,query.after,query.before)
     elif query.after is not None:
         filtered_df=dc.search_after(filtered_df,query.after)
     elif query.before is not None:
@@ -218,7 +218,7 @@ def not_found(e):
     Returns:
         Response: A Flask JSON response with a 500 status code and error details.
     """
-    return jsonify(sr.response(500,'ERROR','Sorry, an expected technical error occured!'))
+    return jsonify(sr.response(500,'ERROR',str(e)))
 
 if __name__ == '__main__':
     app.run()

@@ -1,5 +1,4 @@
-import datetime
-from datetime import date
+from datetime import date,datetime
 from pydantic import BaseModel,field_validator,PositiveInt,Field, model_validator
 from typing import Optional,List,Literal,Any
 from controller import convert_currency_controller as ccc
@@ -148,8 +147,10 @@ class SearchQueryModel(BaseModel):
 
         if isinstance(data, dict):
             if data.get('before') is not None and data.get('after') is not None:
-                if date(data.get('after')) >= date(data.get('before')):
-                    raise ValueError("after should be less than and should not equal to before")
+                after=datetime.fromisoformat(data.get('after')).date()
+                before=datetime.fromisoformat(data.get('before')).date()
+                if after >= before:
+                     raise ValueError("after should be less than and should not equal to before")
         return data
 
     @model_validator(mode='before')
