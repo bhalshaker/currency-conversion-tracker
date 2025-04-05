@@ -78,7 +78,6 @@ class DatasetController():
             pandas.DataFrame: A filtered DataFrame containing rows where the 'date' column is earlier than the specified date.
         """
 
-        print(type(date))
         return df.query('`date` < @date')
 
     def search_after(df,date):
@@ -90,8 +89,7 @@ class DatasetController():
         Returns:
             pandas.DataFrame: A filtered DataFrame containing rows where the 'date' column is greater than the specified date.
         """
-        
-        print(type(date))
+
         return df.query('`date` > @date')
 
     def search_date_interval(df,after,before):
@@ -107,6 +105,7 @@ class DatasetController():
             pandas.DataFrame: Filtered transactions DataFrame containing rows where the 'date' 
             column is greater than `after` and less than `before`.
         """
+        
         return df.query('@after < `date` < @before')
 
     def search_by_term(df,search_term):
