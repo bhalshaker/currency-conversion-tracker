@@ -33,7 +33,46 @@ To start the Flask application, follow these steps:
 
     Ensure that the `data` folder contains a `transaction.csv` file. This file is used to store transaction data in CSV format for processing and conversion. You can populate it with sample data or real transaction records as needed.
 ## Getting Started
+### Getting Started
 
+To get started with the Currency Conversion Tracker project, follow these steps:
+
+1. **Clone the Repository**:  
+    Clone the project repository to your local machine:
+    ```sh
+    git clone https://github.com/your-username/currency-conversion-tracker.git
+    cd currency-conversion-tracker
+    ```
+
+2. **Set Up the Environment**:  
+    Create a virtual environment and activate it:
+    ```sh
+    python -m venv venv
+    source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
+
+3. **Install Dependencies**:  
+    Install the required Python packages:
+    ```sh
+    pip install -r requirements.txt
+    ```
+
+4. **Prepare the Data**:  
+    Ensure the `data/transaction.csv` file exists and contains valid transaction data. You can use the provided sample data or create your own.
+
+5. **Run the Application**:  
+    Start the Flask application:
+    ```sh
+    flask run
+    ```
+
+6. **Access the Application**:  
+    Open your web browser and navigate to `http://127.0.0.1:5000` to access the API endpoints.
+
+7. **Test the API**:  
+    Use tools like Postman or cURL to test the API routes described in the documentation.
+
+By following these steps, you will have the Currency Conversion Tracker up and running on your local machine.
 
 ## Technologies Used
 
