@@ -165,10 +165,12 @@ class SearchQueryModel(BaseModel):
         Raises:
             ValueError: If all fields in the dictionary are None.
         """
-
+        
         if isinstance(data, dict):
             if all(value is None for value in data.values()):
                 raise ValueError("At least one field must be provided")
+            if 'before' not in data and 'after' not in data and 'below' not in data and 'exceed' not in data and 'matching' not in data and 'currency' not in data:
+                raise ValueError("At least one the predefined fields must be provided")
         return data
 
 class TransactionPath(BaseModel):

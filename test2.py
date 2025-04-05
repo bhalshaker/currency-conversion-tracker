@@ -16,3 +16,6 @@ print(len(new_df))
 new_df=dc.search_between_amount(df,300,200)
 print(len(new_df))
 print(new_df)
+search_term='user'
+new_df=dc.search_by_term(df,search_term)
+print(len(new_df))

@@ -146,7 +146,6 @@ def transactions_search(query:SearchQueryModel):
     """
     df = dc.get_default_dataset()
     filtered_df=df
-    print(query)
     if query.after is not None and query.before is not None:
         filtered_df=dc.search_date_interval(filtered_df,query.after,query.before)
     elif query.after is not None:
