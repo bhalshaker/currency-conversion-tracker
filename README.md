@@ -8,11 +8,30 @@
 |/transactions|POST|Submit transaction lists to be converted|Transactions Array[id (integer), amount (Decimal), currency (String), description (String)]|
 
 ## Brief description
-
+This project is a Flask-based web application designed to handle currency conversion for financial transactions. It provides APIs to fetch, search, and convert transaction data, leveraging external exchange rate APIs and robust data validation tools.
 ## Start Flask Application
-```sh
-flask run
-```
+To start the Flask application, follow these steps:
+
+1. Ensure you have Python 3.11 installed on your system.
+2. Install the required dependencies by running:
+    ```sh
+    pip install -r requirements.txt
+    ```
+3. Set the `FLASK_APP` environment variable:
+    ```sh
+    export FLASK_APP=app.py
+    ```
+4. Optionally, set the `FLASK_ENV` environment variable to `development` for debugging:
+    ```sh
+    export FLASK_ENV=development
+    ```
+5. Run the Flask application:
+    ```sh
+    flask run
+    ```
+    ## Data Folder
+
+    Ensure that the `data` folder contains a `transaction.csv` file. This file is used to store transaction data in CSV format for processing and conversion. You can populate it with sample data or real transaction records as needed.
 ## Getting Started
 
 
