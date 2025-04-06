@@ -129,3 +129,6 @@ The project leverages the following technologies and libraries:
 - **Currency API**: A free and open-source currency conversion API for fetching exchange rates by https://github.com/fawazahmed0/exchange-api repository .
 - **pandantic**: It enables validation and filtering of pandas dataframes.
 
+## Attributions
+
+Special thanks for https://github.com/fawazahmed0 for providing exchange API for free.
