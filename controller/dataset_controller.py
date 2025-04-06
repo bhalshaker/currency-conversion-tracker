@@ -185,6 +185,6 @@ class DatasetController():
             converted to datetime. Invalid parsing will result in NaT (Not a Time).
         """
         new_df=df.copy()
-        df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
-        return df
+        new_df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
+        return new_df
         
