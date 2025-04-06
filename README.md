@@ -22,10 +22,15 @@ To get started with the Currency Conversion Tracker project, follow these steps:
     ```
 
 2. **Set Up the Environment** (Prefered):  
-    Create a virtual environment and activate it:
+    If in (Linux/MacOS) Create a virtual environment and activate it :
     ```sh
     python -m venv venv
     source venv/bin/activate  # On Windows, use `venv\Scripts\activate`
+    ```
+    If in (windows)Create a virtual environment and activate it:
+    ```
+    python -m venv venv
+    venv\Scripts\activate
     ```
 
 3. **Install Dependencies**:  
@@ -46,16 +51,69 @@ To get started with the Currency Conversion Tracker project, follow these steps:
 5. **Run the Application**:  
     Start the Flask application:
     ```sh
-    flask run
+    gunicorn app:app
     ```
 
 6. **Access the Application**:  
-    Open your web browser and navigate to [http://localhost:5000](http://localhost:5000) to access the API endpoints.
+    Open your web browser and navigate to [http://localhost:8000](http://localhost:8000) to access the API endpoints.
 
 7. **Test the API**:  
-    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on [http://localhost:5000/openapi/swagger](http://localhost:5000/openapi/swagger) or through hosted documentation.
+    Use tools like Postman or cURL to test the API routes described in the swagger ui documentation hosted on [http://localhost:8000/openapi/swagger](http://localhost:8000/openapi/swagger) or through hosted documentation.
 
 By following these steps, you will have the Currency Conversion Tracker up and running on your local machine.
+
+Positive scenatios
+- get all transactions (Returns 30 records if csv file in the project was not entered)
+```
+http://localhost:8000/transactions'
+```
+- get transactions matches id 4 (Returns on transaction with id 4)
+```
+http://localhost:8000/transactions/4
+```
+- search for transaction with usd currency (Returns 9 converted transactions with currency usd)
+```
+http://localhost:8000/transactions/search?currency=usd
+```
+- search for transaction happend after 2024-04-01 and  before 2024-04-04 (Returns 12 converted transactions happend after 2024-04-01 and  before 2024-04-04)
+```
+http://localhost:8000/transactions/search?before=2024-04-04&after=2024-04-01
+```
+- search for transaction exceed 100 and below that 250 (Return 14 converted transactions)
+```
+http://localhost:8000/transactions/search?exceed=100&below=250
+```
+- post transaction to convert
+```
+post request to http://localhost:8000/transactions with body {
+  "transactions": [
+{"id": 1,"description": "string","amount": 80,"currency": "1inch","date": "2025-04-06"},
+{"id": 12,"description": "string","amount": 765,"currency": "aud","date": "2025-03-09"}
+]} (returns two converted transactions)
+```
+
+Negative scenarios
+
+1- No resutls found with mathcing transaction id.
+```
+http://localhost:8000/transactions/40
+```
+3- No resutls found with mathcing search criteria
+```
+http://localhost:8000/transactions/search?exceed=900
+```
+
+4- No search criteria entered
+```
+http://localhost:8000/transactions/search
+```
+```
+http://localhost:8000/transactions/search?test=1
+```
+5- Currency entered is in CAPs
+```
+http://localhost:8000/transactions/search?country=USD
+```
 
 ## Technologies Used
 

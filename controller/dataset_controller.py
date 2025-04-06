@@ -184,7 +184,7 @@ class DatasetController():
             pd.DataFrame: The modified transactions DataFrame with the 'date' column 
             converted to datetime. Invalid parsing will result in NaT (Not a Time).
         """
-
+        new_df=df.copy()
         df['date'] = pd.to_datetime(df['date'], format='%Y-%m-%d', errors='coerce')
         return df
         
