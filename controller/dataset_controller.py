@@ -51,7 +51,6 @@ class DatasetController():
         df['description'] = df['description'].astype("string")
         df['amount'] = df['amount'].astype("float64")
         df['currency'] = df['currency'].astype("string")
-        print(df.dtypes)
         df['date'] = pd.to_datetime(df['date'])
         return df
 
