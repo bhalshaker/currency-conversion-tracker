@@ -1,4 +1,4 @@
-from flask import Flask,request,jsonify
+from flask import jsonify
 from flask_pydantic import validate
 from flask_openapi3 import Info, Tag
 from flask_openapi3 import OpenAPI
@@ -6,8 +6,6 @@ from controller.service_response import ServiceResponse as sr
 from controller.dataset_controller import DatasetController as dc
 from controller.convert_currency_controller import dataframe_convert_currency as dcc
 from model.model import TransactionPath,ConvertedTransactionResponse,SearchQueryModel,TransactionsBodyModel
-import json
-import pandas as pd
 
 info = Info(title='Currency Conversion Tracker API', version='1.0.0')
 app = OpenAPI(__name__, info=info)
@@ -20,7 +18,7 @@ def convert_transactions(df):
     """
     Converts transaction data in a DataFrame using an external conversion API.
     This function takes a DataFrame containing transaction data, attempts to 
-    convert the transactions using the `dcc` function (presumably an API call), 
+    convert the transactions using the `dcc` (dataframe_convert_currency) function (by an API call), 
     and returns the converted data as a JSON response. If the DataFrame is empty, 
     or if an error occurs during the conversion process, appropriate error 
     responses are returned.
@@ -28,12 +26,9 @@ def convert_transactions(df):
         df (pandas.DataFrame): A DataFrame containing transaction data to be converted.
     Returns:
         flask.Response: A JSON response containing:
-            - Converted transaction data if successful.
-            - A 404 response if the DataFrame is empty.
+            - A 202 code response Converted transaction data if successful.
+            - A 204 code response if the DataFrame is empty.
             - A 500 response if an error occurs during the conversion process.
-    Logs:
-        - Logs a success message if the conversion API is called successfully.
-        - Logs an error message if an exception is raised during the conversion process.
     """
 
     if len(df)>0:
@@ -65,10 +60,6 @@ def all_trancations():
     Returns:
         Response: A JSON response containing the converted transactions if successful, 
                   or an error message with a 500 status code if an exception occurs.
-
-    Logs:
-        - Logs an error message if dataset retrieval fails.
-        - Logs an informational message when the dataset is successfully retrieved.
     """
     
     try:
@@ -93,7 +84,7 @@ def transactions_by_id(path: TransactionPath):
     currency conversion to the filtered transaction.
 
     Args:
-        path (TransactionPath): An object containing the transaction ID to be processed.
+        path (TransactionPath): An object containing the integer transaction ID to be processed.
 
     Returns:
         Response: A JSON response containing the converted transaction data if successful,
@@ -101,11 +92,6 @@ def transactions_by_id(path: TransactionPath):
 
     Raises:
         ValueError: If the provided transaction ID is not a valid base-10 integer.
-
-    Notes:
-        - The function assumes the existence of a default dataset and utility functions
-          for searching, preparing, and converting transaction data.
-        - The response format is handled by the `sr.response` utility.
     """
   
     try:

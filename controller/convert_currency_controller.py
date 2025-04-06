@@ -109,4 +109,4 @@ def dataframe_convert_currency(df):
     
     new_df = df.copy()
     new_df['converted_to_bhd'] = df.apply(lambda row: convert_currency('bhd', row['currency'], row['date'], row['amount']), axis=1)
-    return df
+    return new_df
